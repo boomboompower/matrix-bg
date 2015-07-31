@@ -4,7 +4,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -28,11 +28,11 @@ public class Matrix implements ApplicationListener {
     private FreeTypeFontGenerator gen;
     private int temporary_size = Settings.font_size;
 
-    public static final String chars =
+    public static final String CHARS =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                     + "abcdefghijklmnopqrstuvwxyz"
-                    + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
-                    + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+//                    + "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+//                    + "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
                     + "1234567890-=!\"№;%:?*()_+\\/|<>.,'[]{}";
 
     @Override
@@ -65,8 +65,16 @@ public class Matrix implements ApplicationListener {
         gen.dispose();
     }
 
+    FreeTypeFontGenerator.FreeTypeFontParameter parameter;
+    {
+        parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.characters = CHARS;
+        parameter.flip = false;
+    }
+
     public void genFonts() {
-        def_font = gen.generateFont(Settings.font_size, chars, false);
+        parameter.size = Settings.font_size;
+        def_font = gen.generateFont(parameter);
         def_font.setUseIntegerPositions(true);
         temporary_size = Settings.font_size;
 
@@ -78,7 +86,7 @@ public class Matrix implements ApplicationListener {
     @Override
     public void render() {
         Gdx.gl.glClearColor(Settings.Color.bg.c.r, Settings.Color.bg.c.g, Settings.Color.bg.c.b, 0.9f);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update();
 
         bg.setColor(Settings.Color.bg.c);
@@ -185,7 +193,7 @@ public class Matrix implements ApplicationListener {
                 new_index += subline_color.length() + 2;
             }
 
-            int width = (int) def_font.getBounds(subline).width;
+            int width = (int) def_font.getSpaceWidth() * subline.length();
 
             try {
                 def_font.draw(batch, subline, x, y);

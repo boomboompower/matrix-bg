@@ -10,24 +10,14 @@ import com.badlogic.gdx.backends.android.AndroidLiveWallpaperService;
 public class Background extends AndroidLiveWallpaperService {
 
     @Override
-    public ApplicationListener createListener(boolean isPreview) {
+    public void onCreateApplication() {
+        super.onCreateApplication();
         Settings.local_resolver = getFilesDir().getAbsolutePath() + "/";
-        Matrix.isPreview = isPreview;
-        return new Matrix();
+        Matrix.isPreview = notifiedPreviewState;
+
+        initialize(new Matrix());
     }
 
-    @Override
-    public AndroidApplicationConfiguration createConfig() {
 
-        AndroidApplicationConfiguration cfg = new AndroidApplicationConfiguration();
-        cfg.useGL20 = false;
-        return cfg;
-
-    }
-
-    @Override
-    public void offsetChange(ApplicationListener listener, float xOffset, float yOffset, float xOffsetStep, float yOffsetStep, int xPixelOffset, int yPixelOffset) {
-
-    }
 
 }

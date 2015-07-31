@@ -18,7 +18,7 @@ public class Settings {
     public static boolean byLine = false;
     public static String local_resolver = "";
 
-    public static void read() {
+    public synchronized static void read() {
         File settings;
         settings = new File(local_resolver + "settings.cfg");
 
@@ -47,7 +47,7 @@ public class Settings {
         }
     }
 
-    public static void write() {
+    public synchronized static void write() {
 
         File settings;
         settings = new File(local_resolver + "/settings.cfg");

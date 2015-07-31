@@ -149,7 +149,7 @@ public class SettingsActivity extends Activity {
         });
 
         Spinner spinner = (Spinner) findViewById(R.id.presets);
-        adapter = new ArrayAdapter<Object>(this, R.layout.label, color_shemas.keySet().toArray());
+        adapter = new ArrayAdapter<>(this, R.layout.label, color_shemas.keySet().toArray());
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             boolean ft;

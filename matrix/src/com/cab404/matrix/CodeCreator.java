@@ -259,7 +259,6 @@ public class CodeCreator {
         if (line.isEmpty())
             line = createVar();
 
-        assert false;
 
         return line;
     }
